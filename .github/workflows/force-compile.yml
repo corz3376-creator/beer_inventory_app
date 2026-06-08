@@ -31,7 +31,7 @@ jobs:
           rm -rf android
 
       - name: Structural Scaffold Sync
-        run: flutter create --platforms=android --org com.corz3376 --force .
+        run: flutter create --platforms=android --org com.corz3376 --overwrite .
 
       - name: Download App Packages
         run: flutter pub get
