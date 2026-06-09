@@ -40,6 +40,7 @@ jobs:
       - name: Upgrade Gradle Distribution for Java 21
         run: |
           cd android
+          chmod +x gradlew
           ./gradlew wrapper --gradle-version 8.5
 
       - name: Clean Workspace Environment
