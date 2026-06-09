@@ -33,8 +33,9 @@ jobs:
             mv amdroid android
           fi
 
-      - name: Clean Workspace Environment
-        run: flutter clean
+      - name: Compile Release Binary
+        run: flutter build apk --debug -v
+
 
       - name: Download App Packages
         run: flutter pub get
