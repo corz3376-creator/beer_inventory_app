@@ -37,6 +37,11 @@ jobs:
           sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle
           sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle
 
+      - name: Upgrade Gradle Distribution for Java 21
+        run: |
+          cd android
+          ./gradlew wrapper --gradle-version 8.5
+
       - name: Clean Workspace Environment
         run: flutter clean
 
