@@ -27,21 +27,24 @@ jobs:
           flutter-version: '3.24.0'
           channel: stable
 
-      - name: Fix Android Workspace Directory
+      - name: Regenerate Clean Platform Folders
         run: |
-          if [ -d "amdroid" ]; then
-            mv amdroid android
-          fi
+          rm -rf android amdroid ios web windows macos linux
+          flutter create --platforms=android .
 
-      - name: Compile Release Binary
-        run: flutter build apk --debug -v
+      - name: Bump Android SDK to 35
+        run: |
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle
+          sed -i 's/targetSdkVersion flutter.targetSdkVersion/targetSdkVersion 35/g' android/app/build.gradle
 
+      - name: Clean Workspace Environment
+        run: flutter clean
 
       - name: Download App Packages
         run: flutter pub get
 
       - name: Compile Release Binary
-        run: flutter build apk --debug
+        run: flutter build apk --debug -v
 
       - name: Export Release Package
         uses: actions/upload-artifact@v4
