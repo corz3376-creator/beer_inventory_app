@@ -32,8 +32,25 @@ jobs:
           rm -rf android amdroid ios web windows macos linux
           flutter create --platforms=android .
 
+      - name: Configure Local Android Properties
+        run: |
+          echo "flutter.compileSdkVersion=35" >> android/local.properties
+          echo "flutter.targetSdkVersion=35" >> android/local.properties
+
       - name: Clean Workspace Environment
         run: flutter clean
+
+      - name: Download App Packages
+        run: flutter pub get
+
+      - name: Compile Release Binary
+        run: flutter build apk --debug
+
+      - name: Export Release Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: beer-inventory-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Download App Packages
         run: flutter pub get
