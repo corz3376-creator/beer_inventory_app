@@ -2,7 +2,8 @@ name: Forced Production Build
 
 on:
   push:
-    branches: [ main, pipeline-fix ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -11,6 +12,8 @@ jobs:
     steps:
       - name: Sync Repository Code
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Configure Java Runtime
         uses: actions/setup-java@v4
@@ -26,9 +29,6 @@ jobs:
 
       - name: Clean Workspace Environment
         run: flutter clean
-
-      - name: Structural Scaffold Sync
-        run: flutter create --platforms=android --org com.corz3376 --overwrite .
 
       - name: Download App Packages
         run: flutter pub get
