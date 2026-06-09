@@ -27,12 +27,10 @@ jobs:
           channel: stable
 
       - name: Force Purge Old Platform Templates
-        run: |
-          rm -rf android amdroid ios web windows macos linux
+        run: rm -rf android amdroid ios web windows macos linux
 
       - name: Regenerate Clean Platform Folders
-        run: |
-          flutter create --platforms=android --force .
+        run: flutter create --platforms=android --force .
 
       - name: Clean Workspace Environment
         run: flutter clean
