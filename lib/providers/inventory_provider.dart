@@ -1,27 +1,32 @@
-import '../services/google_sheets_api.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../models/inventory_item.dart';
+import '../services/google_sheets_api.dart';
 
-class InventoryProvider extends ChangeNotifier {
+class InventoryProvider with ChangeNotifier {
   List<InventoryItem> _items = [];
-  
   List<InventoryItem> get items => _items;
-  int get lowStockCount => _items.where((item) => item.isLowStock).length;
 
-  void addItem(InventoryItem item) {
-    _items.add(item);
+  // This method will be called when you tap a button to log a barrel
+  Future<void> addBarrelLog(String barrelId, String content) async {
+    // 1. Create the new log entry
+    final newItem = InventoryItem(
+      id: const Uuid().v4(),
+      barrelId: barrelId,
+      content: content,
+      timestamp: DateTime.now(),
+    );
+
+    // 2. Immediately update the local list so the app UI feels fast
+    _items.add(newItem);
     notifyListeners();
-  }
 
-  void updateStock(String id, double newStock) {
-    final item = _items.firstWhere((i) => i.id == id);
-    item.currentStock = newStock;
-    item.isLowStock = newStock < item.parLevel * 0.3;
-    notifyListeners();
-  }
-
-  List<InventoryItem> getItemsByCategory(String category) {
-    if (category == 'All') return _items;
-    return _items.where((item) => item.category == category).toList();
+    // 3. Push the data silently to Google Sheets in the background
+    final success = await GoogleSheetsApi.insertItem(newItem);
+    
+    if (!success) {
+      print("Warning: Failed to sync barrel $barrelId to Google Sheets");
+      // Optional: You could add logic here to alert the user if the upload failed
+    }
   }
 }
