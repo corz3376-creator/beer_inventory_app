@@ -30,7 +30,9 @@ jobs:
         run: rm -rf android amdroid ios web windows macos linux
 
       - name: Regenerate Clean Platform Folders
-        run: flutter create --platforms=android --force
+        run: |
+          CMD="flutter create --platforms=android --force ."
+          $CMD
 
       - name: Clean Workspace Environment
         run: flutter clean
