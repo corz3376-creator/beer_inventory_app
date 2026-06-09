@@ -33,7 +33,15 @@ jobs:
 
       - name: Regenerate Clean Platform Folders
         run: |
-          flutter create --platforms=android --project-name=beer_logging_app --force .
+          flutter create --platforms=android --force .
+
+      - name: Fix Android Target Path Alignment
+        run: |
+          cd android
+          if [ -d "app/src/main/kotlin/com/example/beer_inventory_app" ]; then
+            mkdir -p app/src/main/kotlin/com/example/beer_logging_app
+            cp app/src/main/kotlin/com/example/beer_inventory_app/MainActivity.kt app/src/main/kotlin/com/example/beer_logging_app/MainActivity.kt
+          fi
 
       - name: Clean Workspace Environment
         run: flutter clean
