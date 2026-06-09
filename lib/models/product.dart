@@ -1,94 +1,39 @@
-import 'package:uuid/uuid.dart';
-
 class Product {
-  final String id;
+  final int? id;
   final String name;
+  final String category;
   final String brand;
-  final String type; // IPA, Lager, Stout, etc.
-  final double abv; // Alcohol by volume
-  final double purchasePrice;
-  final double salePrice;
-  final String? supplier;
-  final String? imageUrl;
-  final DateTime createdAt;
-  final DateTime? updatedAt;
+  final double stock;
+  final double price;
 
   Product({
-    String? id,
+    this.id,
     required this.name,
+    required this.category,
     required this.brand,
-    required this.type,
-    required this.abv,
-    required this.purchasePrice,
-    required this.salePrice,
-    this.supplier,
-    this.imageUrl,
-    DateTime? createdAt,
-    this.updatedAt,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? DateTime.now();
+    required this.stock,
+    required this.price,
+  });
 
-  // Convert Product to JSON
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] as int?,
+      name: json['name'] as String,
+      category: json['category'] as String,
+      brand: json['brand'] as String,
+      stock: (json['stock'] as num).toDouble(),
+      price: (json['price'] as num).toDouble(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
+      'category': category,
       'brand': brand,
-      'type': type,
-      'abv': abv,
-      'purchasePrice': purchasePrice,
-      'salePrice': salePrice,
-      'supplier': supplier,
-      'imageUrl': imageUrl,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
+      'stock': stock,
+      'price': price,
     };
-  }
-
-  // Create Product from JSON
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'],
-      name: json['name'],
-      brand: json['brand'],
-      type: json['type'],
-      abv: json['abv'],
-      purchasePrice: json['purchasePrice'],
-      salePrice: json['salePrice'],
-      supplier: json['supplier'],
-      imageUrl: json['imageUrl'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'])
-          : null,
-    );
-  }
-
-  Product copyWith({
-    String? id,
-    String? name,
-    String? brand,
-    String? type,
-    double? abv,
-    double? purchasePrice,
-    double? salePrice,
-    String? supplier,
-    String? imageUrl,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return Product(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      brand: brand ?? this.brand,
-      type: type ?? this.type,
-      abv: abv ?? this.abv,
-      purchasePrice: purchasePrice ?? this.purchasePrice,
-      salePrice: salePrice ?? this.salePrice,
-      supplier: supplier ?? this.supplier,
-      imageUrl: imageUrl ?? this.imageUrl,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
   }
 }
