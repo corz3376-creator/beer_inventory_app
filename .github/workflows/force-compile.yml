@@ -27,6 +27,12 @@ jobs:
           flutter-version: '3.24.0'
           channel: stable
 
+      - name: Fix Android Workspace Directory
+        run: |
+          if [ -d "amdroid" ]; then
+            mv amdroid android
+          fi
+
       - name: Clean Workspace Environment
         run: flutter clean
 
