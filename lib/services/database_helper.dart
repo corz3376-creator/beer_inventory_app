@@ -48,7 +48,12 @@ class DatabaseHelper {
     final db = await database;
     return await db.query('logs');
   }
-
+  
+  Future<List<Map<String, dynamic>>> getAllUsageLogs() async {
+    final db = await database;
+    return await db.query('usage_logs', orderBy: 'timestamp DESC');
+  }
+  
   Future<int> insertUsageLog(Map<String, dynamic> log) async {
     final db = await database;
     return await db.insert('logs', log);
