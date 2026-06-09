@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
       - name: Configure Flutter SDK
         uses: subosito/flutter-action@v2
@@ -32,17 +32,6 @@ jobs:
           rm -rf android amdroid ios web windows macos linux
           flutter create --platforms=android .
 
-      - name: Hardcode Android Compile SDK to 35
-        run: |
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle
-
-      - name: Upgrade Gradle Distribution for Java 21
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew wrapper --gradle-version 8.5
-
       - name: Clean Workspace Environment
         run: flutter clean
 
@@ -50,7 +39,7 @@ jobs:
         run: flutter pub get
 
       - name: Compile Release Binary
-        run: flutter build apk --debug
+        run: flutter build apk --debug --no-pub --build-inputs-changed
 
       - name: Export Release Package
         uses: actions/upload-artifact@v4
