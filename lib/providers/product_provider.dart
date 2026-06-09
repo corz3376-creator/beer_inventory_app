@@ -1,26 +1,42 @@
-import 'package:flutter/foundation.dart';
-import '../models/product.dart';
-import '../services/database_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/product_provider.dart';
 
-class ProductProvider extends ChangeNotifier {
-  final DatabaseHelper _dbHelper = DatabaseHelper();
-  List<Product> _products = [];
+class ProductsScreen extends StatelessWidget {
+  const ProductsScreen({super.key});
 
-  List<Product> get products => _products;
+  @override
+  Widget build(BuildContext context) {
+    final products = context.watch<ProductProvider>().products;
 
-  Future<void> loadProducts() async {
-    final data = await _dbHelper.getAllProducts();
-    _products = data.map((e) => Product.fromJson(e)).toList();
-    notifyListeners();
-  }
-
-  Future<void> addProduct(Product product) async {
-    await _dbHelper.insertProduct(product.toJson());
-    await loadProducts();
-  }
-
-  Future<void> updateProduct(Product product) async {
-    await _dbHelper.updateProduct(product.toJson());
-    await loadProducts();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Products'),
+        backgroundColor: const Color(0xFF8B4513),
+      ),
+      body: products.isEmpty
+          ? const Center(
+              child: Text('No products yet'),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading: const Icon(Icons.local_drink),
+                    title: Text(product.name),
+                    subtitle: Text(
+                      'Category: ${product.category}
+Brand: ${product.brand}',
+                    ),
+                    isThreeLine: true,
+                  ),
+                );
+              },
+            ),
+    );
   }
 }
