@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import '../providers/usage_provider.dart';
+import 'products_screen.dart';
+import 'inventory_screen.dart';
+import 'scan_barcode_screen.dart';
+import 'reports_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,9 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const PlaceholderScreen(
-                            title: 'Products',
-                          ),
+                          builder: (_) => const ProductsScreen(),
                         ),
                       );
                     },
@@ -70,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const PlaceholderScreen(
-                            title: 'Inventory',
-                          ),
+                          builder: (_) => const InventoryScreen(),
                         ),
                       );
                     },
@@ -85,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const PlaceholderScreen(
-                            title: 'Scan Barcode',
-                          ),
+                          builder: (_) => const ScanBarcodeScreen(),
                         ),
                       );
                     },
@@ -100,9 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const PlaceholderScreen(
-                            title: 'Reports',
-                          ),
+                          builder: (_) => const ReportsScreen(),
                         ),
                       );
                     },
@@ -164,28 +160,6 @@ class _DashboardCard extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class PlaceholderScreen extends StatelessWidget {
-  final String title;
-
-  const PlaceholderScreen({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: const Color(0xFF8B4513),
-      ),
-      body: Center(
-        child: Text(
-          '$title page',
-          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
     );
