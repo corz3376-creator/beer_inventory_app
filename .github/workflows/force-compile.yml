@@ -19,12 +19,11 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Configure Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
           channel: stable
 
       - name: Regenerate Clean Platform Folders
@@ -39,7 +38,7 @@ jobs:
         run: flutter pub get
 
       - name: Compile Release Binary
-        run: flutter build apk --debug --no-pub --build-inputs-changed
+        run: flutter build apk --debug
 
       - name: Export Release Package
         uses: actions/upload-artifact@v4
