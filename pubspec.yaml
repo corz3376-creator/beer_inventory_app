@@ -10,17 +10,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # State Management & Architecture
+  # State Management
   provider: ^6.1.2
 
-  # Backend & Cloud Storage
+  # Backend & Cloud Sync
   gsheets: ^0.4.0
   uuid: ^4.3.3
 
-  # Local System Utilities (Required by your current files)
-  path_provider: ^2.1.2
+  # Local Database Utilities (Required by your product & usage providers)
   sqflite: ^2.3.0
   path: ^1.9.0
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
