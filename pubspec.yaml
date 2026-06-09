@@ -8,8 +8,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.2
-  http: ^1.2.1
+  uuid: ^4.3.3      # Required by your provider code
+  path_provider: ^2.1.2  # Required by your provider code
+  # Make sure your specific Google Sheets package (like gsheets) is also listed here!
 
 dev_dependencies:
   flutter_test:
